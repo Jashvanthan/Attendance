@@ -80,6 +80,25 @@ try:
 except Exception:
     pass
 
+try:
+    # Ensure verification_log is created if the database already existed
+    conn = database.get_db()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS verification_log (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER,
+            attempted_register_number TEXT,
+            result TEXT NOT NULL,
+            reason TEXT,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+        )
+    ''')
+    conn.commit()
+    conn.close()
+except Exception:
+    pass
+
 # ─── Serve Frontend ───
 
 @app.route('/')

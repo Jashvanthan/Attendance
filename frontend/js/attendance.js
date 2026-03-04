@@ -158,7 +158,7 @@ async function loadAttendanceRecords() {
     if (yearVal) params.append('year', yearVal);
     if (searchVal) params.append('search', searchVal);
     if (statusVal) params.append('status', statusVal);
-    
+
     const classVal = document.getElementById('filter-class').value;
     if (classVal) params.append('student_class', classVal);
 
@@ -242,7 +242,7 @@ async function loadAttendanceRecords() {
             <tr>
                 <td>${r.name}</td>
                 <td>${r.register_number}</td>
-                <td>${r.department} / Sector ${r.student_class}</td>
+                <td>${r.department} / Sector ${r.student_class || 'A'}</td>
                 <td>Year ${r.year}</td>
                 <td>${formatDate(r.date)}</td>
                 <td>${formatTime(r.time)}</td>

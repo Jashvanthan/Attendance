@@ -64,6 +64,16 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
 
+        CREATE TABLE IF NOT EXISTS verification_log (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER,
+            attempted_register_number TEXT,
+            result TEXT NOT NULL,
+            reason TEXT,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+        );
+
         CREATE INDEX IF NOT EXISTS idx_attendance_date ON attendance(date);
         CREATE INDEX IF NOT EXISTS idx_attendance_student ON attendance(student_id);
         CREATE INDEX IF NOT EXISTS idx_students_department ON students(department);
