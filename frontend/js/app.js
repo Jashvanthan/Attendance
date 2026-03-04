@@ -38,6 +38,12 @@ function navigateTo(page) {
 
     currentPage = page;
 
+    // Auto-close sidebar on mobile after navigation
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar && sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+    }
+
     // Trigger page-specific loader
     if (page === 'dashboard') loadDashboard();
     else if (page === 'registration') loadRegistrationPage();
