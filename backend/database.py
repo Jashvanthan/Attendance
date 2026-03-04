@@ -428,6 +428,25 @@ def log_verification_attempt(student_id, register_number, result, reason=None):
 def get_verification_logs(limit=50):
     """Get recent verification log entries."""
     conn = get_db()
+    
+    # ─── AUTO-HEAL: Create table if it went missing on Render ───
+    try:
+        conn.execute("SELECT 1 FROM verification_log LIMIT 1")
+    except:
+        try:
+            conn.execute('''CREATE TABLE IF NOT EXISTS verification_log (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                student_id INTEGER,
+                attempted_register_number TEXT,
+                result TEXT NOT NULL,
+                reason TEXT,
+                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+            )''')
+            conn.commit()
+        except:
+            pass
+
     rows = conn.execute(
         '''SELECT vl.id, vl.attempted_register_number, vl.result, vl.reason,
                   vl.timestamp, s.name
@@ -503,6 +522,16 @@ def get_attendance(date_filter=None, department=None, year=None, search=None, st
     """Get attendance records with optional filters."""
     conn = get_db()
     
+    # ─── AUTO-HEAL: Ensure student_class exists if using older persistent Render DB ───
+    try:
+        conn.execute("SELECT student_class FROM students LIMIT 1")
+    except:
+        try:
+            conn.execute("ALTER TABLE students ADD COLUMN student_class TEXT DEFAULT 'A'")
+            conn.commit()
+        except:
+            pass
+
     if date_filter:
         query = '''
             SELECT a.id, s.id as student_id, s.name, s.register_number, s.department, s.year, s.student_class,
