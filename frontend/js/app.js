@@ -40,8 +40,10 @@ function navigateTo(page) {
 
     // Auto-close sidebar on mobile after navigation
     const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
     if (sidebar && sidebar.classList.contains('open')) {
         sidebar.classList.remove('open');
+        if (overlay) overlay.classList.remove('show');
     }
 
     // Trigger page-specific loader
@@ -314,19 +316,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mobile sidebar toggle
+    // Mobile sidebar toggle with overlay
     const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.querySelectorAll('.sidebar')[0];
-    if (menuToggle && sidebar) {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    if (menuToggle && sidebar && overlay) {
         menuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
         });
-    }
-    const mainContent = document.getElementById('main-content');
-    if (mainContent && sidebar) {
-        mainContent.addEventListener('click', () => {
+
+        overlay.addEventListener('click', () => {
             sidebar.classList.remove('open');
+            overlay.classList.remove('show');
         });
     }
 

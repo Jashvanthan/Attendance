@@ -108,7 +108,10 @@ def init_db():
 # ─── Working Days Operations ───
 
 def get_working_days(month=None, year=None):
-    """Get list of working days and holidays."""
+    """Get list of working days and holidays. Auto-inserts today if missing."""
+    # ─── AUTO-HEAL: Ensure today is always registered as a working/holiday day
+    is_working_day(date.today().isoformat())
+    
     conn = get_db()
     query = "SELECT date, status FROM working_days WHERE 1=1"
     params = []
