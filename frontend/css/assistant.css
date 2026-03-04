@@ -1,0 +1,151 @@
+/* ═══════════════════════════════════════════════════════════
+   AttendAI – AI Assistant Styles
+   Matches the premium dark theme with glassmorphism
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Search Container ─── */
+.assistant-input-wrapper {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.assistant-input-wrapper .search-input {
+    flex: 1;
+    padding: 0.85rem 1.25rem;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all var(--transition-base);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.assistant-input-wrapper .search-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px var(--accent-primary-glow), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.assistant-input-wrapper .search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.assistant-input-wrapper .btn-primary {
+    padding: 0.85rem 1.5rem;
+}
+
+/* ─── Responsive Layout ─── */
+@media (max-width: 600px) {
+    .assistant-input-wrapper {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+/* ─── Response Box (Success) ─── */
+.response-box {
+    background: linear-gradient(145deg, var(--bg-card), rgba(16, 185, 129, 0.05));
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--success); /* Theming fallback */
+    border-left-color: var(--accent-success); /* Connect to main style.css vars */
+    border-radius: var(--border-radius-sm);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: var(--shadow-md);
+    animation: assistantSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.response-box h3 {
+    margin-top: 0;
+    color: var(--accent-success);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+}
+
+.response-box pre {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    font-family: var(--font-family);
+    margin: 0;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* ─── Not Found Box (Error/Warning) ─── */
+.not-found {
+    background: rgba(239, 68, 68, 0.05); /* Match var(--accent-danger) */
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--border-radius-sm);
+    color: var(--danger); /* Fallback */
+    color: var(--accent-danger);
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.05);
+    animation: assistantSlideUp 0.3s ease-out forwards;
+}
+
+.not-found svg {
+    margin-bottom: 0.75rem;
+    filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.4));
+}
+
+.not-found span {
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+/* ─── Empty State Placeholder ─── */
+.assistant-empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 3.5rem 0;
+    animation: assistantFadeIn 0.8s ease;
+}
+
+.assistant-empty-state svg {
+    opacity: 0.3;
+    margin-bottom: 1.25rem;
+    transition: opacity var(--transition-base);
+}
+
+.assistant-empty-state:hover svg {
+    opacity: 0.5;
+}
+
+.assistant-empty-state p {
+    font-size: 0.95rem;
+    max-width: 250px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ─── Animations ─── */
+@keyframes assistantSlideUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes assistantFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
