@@ -1,18 +1,15 @@
-flask
-flask-cors
-numpy
-Pillow
-requests
-opencv-python-headless
+flask>=3.0
+flask-cors>=4.0
+numpy>=1.24
+Pillow>=10.0
+requests>=2.31
+opencv-python-headless>=4.8
+
+# DeepFace AI Recognition Engine
 deepface
-spacy
+tensorflow-cpu>=2.16
+tf-keras>=2.16
+
+# Level 2 AI Assistant NLP
+spacy>=3.7
 gunicorn
-filelock
-gdown
-h5py
-Keras
-pandas
-scipy
-tensorflow
-tqdm
-Werkzeug
