@@ -70,6 +70,16 @@ if not os.path.exists(database.DB_PATH):
     print("Database not found, initializing...")
     database.init_db()
 
+# Auto-heal the database if it doesn't have the student_class column yet
+try:
+    conn = database.get_db()
+    conn.execute("ALTER TABLE students ADD COLUMN student_class TEXT DEFAULT 'A'")
+    conn.commit()
+    conn.close()
+    print("Migrated database: added student_class column to students table.")
+except Exception:
+    pass
+
 # ─── Serve Frontend ───
 
 @app.route('/')

@@ -36,6 +36,7 @@ def init_db():
             register_number TEXT UNIQUE NOT NULL,
             department TEXT NOT NULL,
             year INTEGER NOT NULL,
+            student_class TEXT DEFAULT 'A',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
 
@@ -80,6 +81,17 @@ def init_db():
     ''')
 
     conn.commit()
+
+    # Schema Migration: Ensure student_class exists if the database was
+    # created before this column was added.
+    try:
+        conn.execute("ALTER TABLE students ADD COLUMN student_class TEXT DEFAULT 'A'")
+        conn.commit()
+        print("Migrated database: added student_class column to students table.")
+    except sqlite3.OperationalError:
+        # Ignore if the column already exists
+        pass
+
     conn.close()
 
 
