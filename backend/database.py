@@ -172,15 +172,42 @@ def delete_working_day(date_str):
     conn.close()
 
 def is_working_day(date_str):
-    """Check if a date is a marked working day."""
+    """Check if a date is a marked working day. If undefined, safely default to 'working' and insert it."""
     conn = get_db()
+    
+    # ─── AUTO-HEAL: Ensure table exists
+    try:
+        conn.execute("SELECT 1 FROM working_days LIMIT 1")
+    except:
+        try:
+            conn.execute('''CREATE TABLE IF NOT EXISTS working_days (
+                date DATE PRIMARY KEY,
+                status TEXT NOT NULL CHECK (status IN ('working', 'holiday')),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )''')
+            conn.commit()
+        except:
+            pass
+
     row = conn.execute(
         "SELECT status FROM working_days WHERE date = ?",
         (date_str,)
     ).fetchone()
-    conn.close()
+
     if not row:
-        return None # Not defined
+        # Default to working day and commit safely
+        try:
+            conn.execute(
+                "INSERT INTO working_days (date, status) VALUES (?, ?)",
+                (date_str, 'working')
+            )
+            conn.commit()
+        except Exception:
+            pass
+        conn.close()
+        return True
+
+    conn.close()
     return row['status'] == 'working'
 
 
