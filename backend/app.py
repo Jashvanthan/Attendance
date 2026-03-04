@@ -54,10 +54,21 @@ app = Flask(__name__,
             static_url_path='')
 CORS(app)
 
-# Ensure known_faces directory exists
-KNOWN_FACES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'known_faces')
+# Ensure data storage directories exist
+# Using a central /data/ folder if available (like on Render persistent disk), else local
+BASE_DATA_DIR = os.environ.get('DATA_DIR', os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+KNOWN_FACES_DIR = os.path.join(BASE_DATA_DIR, 'known_faces')
 os.makedirs(KNOWN_FACES_DIR, exist_ok=True)
 
+# Link DB PATH for the database module
+import database
+database.DB_PATH = os.path.join(BASE_DATA_DIR, 'attendance.db')
+
+# Ensure DB is created on boot if it does not exist
+if not os.path.exists(database.DB_PATH):
+    print("Database not found, initializing...")
+    database.init_db()
 
 # ─── Serve Frontend ───
 

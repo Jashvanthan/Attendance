@@ -11,5 +11,5 @@ services:
     # Enable a persistent disk so your SQLite database and known_faces don't get erased on every deploy
     disk:
       name: attendai-storage
-      mountPath: /opt/render/project/src/backend/known_faces
+      mountPath: /opt/render/project/src/data
       sizeGB: 1
