@@ -318,7 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.querySelectorAll('.sidebar')[0];
     if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('open');
+        });
     }
     const mainContent = document.getElementById('main-content');
     if (mainContent && sidebar) {
