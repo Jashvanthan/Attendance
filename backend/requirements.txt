@@ -4,10 +4,15 @@ numpy
 Pillow
 requests
 opencv-python-headless
-
-# DeepFace AI Recognition Engine
 deepface
-
-# Level 2 AI Assistant NLP
 spacy
 gunicorn
+filelock
+gdown
+h5py
+Keras
+pandas
+scipy
+tensorflow
+tqdm
+Werkzeug
