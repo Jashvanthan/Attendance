@@ -6,6 +6,11 @@ Serves both the API endpoints and the frontend static files.
 import base64
 import os
 import sys
+
+# Suppress all TensorFlow/Keras informational terminal logs
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
 if sys.stdout.encoding != 'utf-8':
     sys.stdout.reconfigure(encoding='utf-8')
 
